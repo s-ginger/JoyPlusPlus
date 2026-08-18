@@ -5,6 +5,7 @@ type TokenType int
 const (
 	SYMBOL TokenType = iota
 	INT
+	FLOAT
 
 	LPAREN 
 	RPAREN

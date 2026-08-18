@@ -30,6 +30,14 @@ func TestLexer_Tokenize(t *testing.T) {
 				{Type: INT, Value:"123", Line: 0, Column: 3},
 			},
 		},
+		{
+			name: "LPAREN RPAREN",
+			input: "[ ]",
+			want: []Token{
+				{Type: LPAREN, Value:"[", Line: 0, Column: 0},
+				{Type: RPAREN, Value:"]", Line: 0, Column: 2},
+			},
+		},
 	}
 
 	for _, tt := range tests {

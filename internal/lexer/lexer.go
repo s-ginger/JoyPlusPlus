@@ -1,6 +1,6 @@
 package lexer
 
-import (	
+import (
 	"unicode"
 	"unicode/utf8"
 )
@@ -15,9 +15,9 @@ type Lexer struct {
 
 func NewLexer(src string) *Lexer {
 	return &Lexer{
-		src: src,
-		pos: 0,
-		line: 0,
+		src:    src,
+		pos:    0,
+		line:   0,
 		column: 0,
 	}
 }
@@ -53,7 +53,6 @@ func (l *Lexer) skipWhitespaces() {
 	}
 }
 
-
 func (l *Lexer) Tokenize() []Token {
 	tokens := []Token{}
 
@@ -66,15 +65,46 @@ func (l *Lexer) Tokenize() []Token {
 
 		r, _ := l.readRune()
 
-		if unicode.IsDigit(r) {
-			value := l.readInteger()
-
+		if r == '[' {
 			tokens = append(tokens, Token{
-				Type: INT,
-				Value: value,
-				Line: l.line,
+				Type:   LPAREN,
+				Value:  string(r),
+				Line:   l.line,
 				Column: l.column,
 			})
+			l.advance()
+			continue
+		}
+
+		if r == ']' {
+			tokens = append(tokens, Token{
+				Type:   RPAREN,
+				Value:  string(r),
+				Line:   l.line,
+				Column: l.column,
+			})
+			l.advance()
+			continue
+		}
+
+		if unicode.IsDigit(r) {
+			value, hasDot := l.readNumber()
+
+			if hasDot {
+				tokens = append(tokens, Token{
+					Type:   FLOAT,
+					Value:  value,
+					Line:   l.line,
+					Column: l.column,
+				})
+			} else {
+				tokens = append(tokens, Token{
+					Type:   INT,
+					Value:  value,
+					Line:   l.line,
+					Column: l.column,
+				})
+			}
 
 			continue
 		}
@@ -83,9 +113,9 @@ func (l *Lexer) Tokenize() []Token {
 			value := l.readSymbol()
 
 			tokens = append(tokens, Token{
-				Type:  SYMBOL,
-				Value: value,
-				Line: l.line,
+				Type:   SYMBOL,
+				Value:  value,
+				Line:   l.line,
 				Column: l.column,
 			})
 
@@ -99,20 +129,28 @@ func (l *Lexer) Tokenize() []Token {
 	return tokens
 }
 
-func (l *Lexer) readInteger() string {
+func (l *Lexer) readNumber() (string, bool) {
 	start := l.pos
+	hasDot := false
 
 	for l.pos < len(l.src) {
 		r, _ := l.readRune()
 
-		if !unicode.IsDigit(r) {
-			break
-		} 
+		if unicode.IsDigit(r) {
+			l.advance()
+			continue
+		}
 
-		l.advance()
+		if r == '.' && !hasDot {
+			hasDot = true
+			l.advance()
+			continue
+		}
+
+		break
 	}
 
-	return  l.src[start:l.pos]
+	return l.src[start:l.pos], hasDot
 }
 
 func (l *Lexer) readSymbol() string {
@@ -130,5 +168,3 @@ func (l *Lexer) readSymbol() string {
 
 	return l.src[start:l.pos]
 }
-
-
