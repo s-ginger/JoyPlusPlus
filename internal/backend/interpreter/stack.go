@@ -22,8 +22,5 @@ func (s *Stack) Len() int {
 	return len(s.values)
 }
 
-type Interpreter struct {
-	Stack Stack
-}
 
 
