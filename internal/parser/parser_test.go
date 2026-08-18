@@ -4,7 +4,7 @@ import (
 	"testing"
 )
 
-func Test(t *testing.T) {
+func TestParser_Parse(t *testing.T) {
 	
 }
 
