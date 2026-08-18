@@ -1,6 +1,6 @@
 package lexer
 
-import (
+import (	
 	"unicode"
 	"unicode/utf8"
 )
@@ -8,12 +8,17 @@ import (
 type Lexer struct {
 	src string
 	pos int
+
+	line   int
+	column int
 }
 
 func NewLexer(src string) *Lexer {
 	return &Lexer{
 		src: src,
 		pos: 0,
+		line: 0,
+		column: 0,
 	}
 }
 
@@ -22,22 +27,35 @@ func (l *Lexer) readRune() (rune, int) {
 	return r, size
 }
 
+func (l *Lexer) advance() {
+	r, size := l.readRune()
+
+	l.pos += size
+
+	if r == '\n' {
+		l.line++
+		l.column = 1
+		return
+	}
+
+	l.column++
+}
+
 func (l *Lexer) skipWhitespaces() {
 	for l.pos < len(l.src) {
-		r, size := l.readRune()
+		r, _ := l.readRune()
 
 		if !unicode.IsSpace(r) {
 			break
 		}
 
-		l.pos += size
+		l.advance()
 	}
 }
 
 
-
 func (l *Lexer) Tokenize() []Token {
-	var tokens []Token
+	tokens := []Token{}
 
 	for l.pos < len(l.src) {
 		l.skipWhitespaces()
@@ -55,17 +73,40 @@ func (l *Lexer) Tokenize() []Token {
 		}
 
 		if unicode.IsLetter(r) {
-			// identifier
-			l.pos += size
+			value := l.readSymbol()
+
+			tokens = append(tokens, Token{
+				Type:  SYMBOL,
+				Value: value,
+				Line: l.line,
+				Column: l.column,
+			})
+
 			continue
 		}
 
 		// unknown character
-		l.pos += size
+		l.advance()
 	}
 
 	return tokens
 }
 
+
+func (l *Lexer) readSymbol() string {
+	start := l.pos
+
+	for l.pos < len(l.src) {
+		r, _ := l.readRune()
+
+		if !unicode.IsLetter(r) && !unicode.IsDigit(r) {
+			break
+		}
+
+		l.advance()
+	}
+
+	return l.src[start:l.pos]
+}
 
 
