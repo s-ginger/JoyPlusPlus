@@ -23,6 +23,13 @@ func TestLexer_Tokenize(t *testing.T) {
 				{Type: SYMBOL, Value:"print", Line: 0, Column: 5},
 			},
 		},
+		{
+			name: "Integer",
+			input: "123",
+			want: []Token{
+				{Type: INT, Value:"123", Line: 0, Column: 3},
+			},
+		},
 	}
 
 	for _, tt := range tests {

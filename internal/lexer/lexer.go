@@ -64,11 +64,18 @@ func (l *Lexer) Tokenize() []Token {
 			break
 		}
 
-		r, size := l.readRune()
+		r, _ := l.readRune()
 
 		if unicode.IsDigit(r) {
-			// number
-			l.pos += size
+			value := l.readInteger()
+
+			tokens = append(tokens, Token{
+				Type: INT,
+				Value: value,
+				Line: l.line,
+				Column: l.column,
+			})
+
 			continue
 		}
 
@@ -92,6 +99,21 @@ func (l *Lexer) Tokenize() []Token {
 	return tokens
 }
 
+func (l *Lexer) readInteger() string {
+	start := l.pos
+
+	for l.pos < len(l.src) {
+		r, _ := l.readRune()
+
+		if !unicode.IsDigit(r) {
+			break
+		} 
+
+		l.advance()
+	}
+
+	return  l.src[start:l.pos]
+}
 
 func (l *Lexer) readSymbol() string {
 	start := l.pos
