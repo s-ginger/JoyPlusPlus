@@ -19,6 +19,22 @@ func NewParser(tokens []lexer.Token) *Parser {
 	}
 }
 
+func NewZeroParser() *Parser {
+	return &Parser{
+		tokens: []lexer.Token{},
+		builder:  NewBuilder(),
+	}
+}
+
+func (p *Parser) SetTokens(tokens []lexer.Token) {
+	p.tokens = tokens
+}
+
+func (p *Parser) Flush() {
+	p.tokens = []lexer.Token{}
+	p.builder = NewBuilder()
+	p.pos = 0
+}
 
 func (p *Parser) current() lexer.Token {
 	return p.tokens[p.pos]

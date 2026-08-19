@@ -13,6 +13,8 @@ func StartRepl() {
 	reader := bufio.NewReader(os.Stdin)
 
 	i := interpreter.NewInterpreter(interpreter.Stack{})
+	l := lexer.NewZeroLexer()
+	p := parser.NewZeroParser()
 
 	for {
 		fmt.Print("> ")
@@ -22,12 +24,16 @@ func StartRepl() {
 			return
 		}
 
-		l := lexer.NewLexer(input)
-		p := parser.NewParser(l.Tokenize())
+		l.SetSrc(input)
+		p.SetTokens(l.Tokenize())
+
 		ast := p.Parse()
 
 		i.Eval(ast)
 		i.Print()
+
+		l.Flush()
+		p.Flush()
 	}
 }
 

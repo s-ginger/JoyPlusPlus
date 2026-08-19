@@ -13,6 +13,25 @@ type Lexer struct {
 	column int
 }
 
+func NewZeroLexer() *Lexer {
+	return &Lexer{
+		src: "",
+		line:   1,
+		column: 1,
+	}
+}
+
+func (l *Lexer) SetSrc(src string) {
+	l.src = src
+}
+
+func (l *Lexer) Flush() {
+	l.src = ""
+	l.pos = 0
+	l.column = 1
+	l.line = 1
+}
+
 func NewLexer(src string) *Lexer {
 	return &Lexer{
 		src:    src,
