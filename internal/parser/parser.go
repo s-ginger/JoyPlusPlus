@@ -17,8 +17,19 @@ func NewParser(tokens []lexer.Token) *Parser {
 	}
 }
 
+func (p *Parser) parseInteger() {
+
+}
+
+func (p *Parser) parseFloat() {
+	
+}
+
+func (p *Parser) parseQuotation() {
+	
+}
+
 func (p *Parser) Parse() AST {
-	ast := AST{}
 
 	for _, tok := range p.tokens {
 
@@ -40,5 +51,5 @@ func (p *Parser) Parse() AST {
 
 	}
 
-	return ast
+	return p.builder.Build()
 }
