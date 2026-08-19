@@ -1,16 +1,15 @@
 package interpreter
 
-import "j++/internal/parser"
 
 type Stack struct {
-	values []parser.Node
+	values []any
 }
 
-func (s *Stack) Push(value parser.Node) {
+func (s *Stack) Push(value any) {
 	s.values = append(s.values, value)
 }
 
-func (s *Stack) Pop() parser.Node {
+func (s *Stack) Pop() any {
 	n := len(s.values)
 
 	value := s.values[n-1]
