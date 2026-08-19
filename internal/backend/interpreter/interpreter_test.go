@@ -7,8 +7,8 @@ import (
 )
 
 func TestInterpreter_Eval(t *testing.T) {
-	
-	l := lexer.NewLexer("1 2 4 [2 4] len print")
+
+	l := lexer.NewLexer("1 dup dup len print")
 	p := parser.NewParser(l.Tokenize())
 	ast := p.Parse()
 	i := NewInterpreter(Stack{})
