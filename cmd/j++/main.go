@@ -1,11 +1,9 @@
 package main
 
-import (
-
-)
+import "j++/cmd/repl"
 
 func main() {
-	
+	repl.StartRepl()
 }
 
 
