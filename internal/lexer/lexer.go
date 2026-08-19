@@ -1,6 +1,7 @@
 package lexer
 
 import (
+	"fmt"
 	"unicode"
 	"unicode/utf8"
 )
@@ -147,7 +148,7 @@ func (l *Lexer) Tokenize() []Token {
 		}
 
 		// unknown character
-		l.advance()
+		panic(fmt.Sprintf("\nunexpected token in (line:colum)(%v:%v):\n%v\n", l.line, l.pos, l.src,))
 	}
 
 	return tokens

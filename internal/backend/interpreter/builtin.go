@@ -21,7 +21,9 @@ var builtins = map[string]Builtin{
 	},
 
 	"print": func(i *Interpreter) {
-		fmt.Printf("%v", i.stack.Pop())
+		val := i.stack.Pop()
+		fmt.Printf("%v", val)
+		i.stack.Push(val)
 	},
 
 	"len": func(i *Interpreter) {
