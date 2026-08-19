@@ -16,9 +16,8 @@ type Lexer struct {
 func NewLexer(src string) *Lexer {
 	return &Lexer{
 		src:    src,
-		pos:    0,
-		line:   0,
-		column: 0,
+		line:   1,
+		column: 1,
 	}
 }
 
@@ -88,21 +87,24 @@ func (l *Lexer) Tokenize() []Token {
 		}
 
 		if unicode.IsDigit(r) {
+			line := l.line
+			column := l.column
+
 			value, hasDot := l.readNumber()
 
 			if hasDot {
 				tokens = append(tokens, Token{
 					Type:   FLOAT,
 					Value:  value,
-					Line:   l.line,
-					Column: l.column,
+					Line:   line,
+					Column: column,
 				})
 			} else {
 				tokens = append(tokens, Token{
 					Type:   INT,
 					Value:  value,
-					Line:   l.line,
-					Column: l.column,
+					Line:   line,
+					Column: column,
 				})
 			}
 
@@ -110,13 +112,16 @@ func (l *Lexer) Tokenize() []Token {
 		}
 
 		if unicode.IsLetter(r) {
+			line := l.line
+			column := l.column
+
 			value := l.readSymbol()
 
 			tokens = append(tokens, Token{
 				Type:   SYMBOL,
 				Value:  value,
-				Line:   l.line,
-				Column: l.column,
+				Line:   line,
+				Column: column,
 			})
 
 			continue

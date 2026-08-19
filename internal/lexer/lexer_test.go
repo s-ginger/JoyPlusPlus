@@ -14,28 +14,37 @@ func TestLexer_Tokenize(t *testing.T) {
 		{
 			name:  "Whitespace",
 			input: "\n\r\t ",
-			want: []Token{},
+			want:  []Token{},
 		},
 		{
-			name: "Symbol",
+			name:  "Symbol",
 			input: "print",
 			want: []Token{
-				{Type: SYMBOL, Value:"print", Line: 0, Column: 5},
+				{Type: SYMBOL, Value: "print", Line: 1, Column: 1},
 			},
 		},
 		{
-			name: "Integer",
+			name:  "Integer",
 			input: "123",
 			want: []Token{
-				{Type: INT, Value:"123", Line: 0, Column: 3},
+				{Type: INT, Value: "123", Line: 1, Column: 1},
 			},
 		},
 		{
-			name: "LPAREN RPAREN",
+			name:  "LPAREN RPAREN",
 			input: "[ ]",
 			want: []Token{
-				{Type: LPAREN, Value:"[", Line: 0, Column: 0},
-				{Type: RPAREN, Value:"]", Line: 0, Column: 2},
+				{Type: LPAREN, Value: "[", Line: 1, Column: 1},
+				{Type: RPAREN, Value: "]", Line: 1, Column: 3},
+			},
+		},
+		{
+			name:  "LPAREN INT RPAREN",
+			input: "[ 2 ]",
+			want: []Token{
+				{Type: LPAREN, Value: "[", Line: 1, Column: 1},
+				{Type: INT, Value: "2", Line: 1, Column: 3},
+				{Type: RPAREN, Value: "]", Line: 1, Column: 5},
 			},
 		},
 	}
@@ -52,4 +61,3 @@ func TestLexer_Tokenize(t *testing.T) {
 		})
 	}
 }
-
