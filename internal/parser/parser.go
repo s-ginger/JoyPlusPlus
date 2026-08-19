@@ -34,7 +34,9 @@ func (p *Parser) Parse() AST {
 			p.builder.Literal(types.Float64, tok.Value)
 		}
 
-		
+		if tok.Type == lexer.LBRACKET {
+
+		}
 
 	}
 

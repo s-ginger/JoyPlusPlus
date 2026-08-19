@@ -7,7 +7,7 @@ const (
 	INT
 	FLOAT
 
-	LPAREN 
+	LBRACKET 
 	RPAREN
 )
 

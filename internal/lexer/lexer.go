@@ -66,7 +66,7 @@ func (l *Lexer) Tokenize() []Token {
 
 		if r == '[' {
 			tokens = append(tokens, Token{
-				Type:   LPAREN,
+				Type:   LBRACKET,
 				Value:  string(r),
 				Line:   l.line,
 				Column: l.column,
