@@ -8,7 +8,7 @@ const (
 	FLOAT
 
 	LBRACKET 
-	RPAREN
+	RBRACKET
 )
 
 

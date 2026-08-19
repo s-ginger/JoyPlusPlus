@@ -31,20 +31,20 @@ func TestLexer_Tokenize(t *testing.T) {
 			},
 		},
 		{
-			name:  "LBRACKET RPAREN",
+			name:  "LBRACKET RBRACKET",
 			input: "[ ]",
 			want: []Token{
 				{Type: LBRACKET, Value: "[", Line: 1, Column: 1},
-				{Type: RPAREN, Value: "]", Line: 1, Column: 3},
+				{Type: RBRACKET, Value: "]", Line: 1, Column: 3},
 			},
 		},
 		{
-			name:  "LBRACKET INT RPAREN",
+			name:  "LBRACKET INT RBRACKET",
 			input: "[ 2 ]",
 			want: []Token{
 				{Type: LBRACKET, Value: "[", Line: 1, Column: 1},
 				{Type: INT, Value: "2", Line: 1, Column: 3},
-				{Type: RPAREN, Value: "]", Line: 1, Column: 5},
+				{Type: RBRACKET, Value: "]", Line: 1, Column: 5},
 			},
 		},
 	}

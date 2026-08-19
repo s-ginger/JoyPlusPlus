@@ -77,7 +77,7 @@ func (l *Lexer) Tokenize() []Token {
 
 		if r == ']' {
 			tokens = append(tokens, Token{
-				Type:   RPAREN,
+				Type:   RBRACKET,
 				Value:  string(r),
 				Line:   l.line,
 				Column: l.column,
