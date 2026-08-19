@@ -1,5 +1,7 @@
 package parser
 
+import "j++/internal/backend/types"
+
 type Builder struct {
 	nodes []Node
 }
@@ -8,8 +10,9 @@ func NewBuilder() *Builder {
 	return &Builder{}
 }
 
-func (b *Builder) Literal(value any) {
+func (b *Builder) Literal(value_type types.ValueType, value any) {
 	b.nodes = append(b.nodes, Literal{
+		Type: value_type,
 		Value: value,
 	})
 }

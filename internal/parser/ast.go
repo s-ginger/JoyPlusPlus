@@ -1,10 +1,13 @@
 package parser
 
+import "j++/internal/backend/types"
+
 type Node interface {
 	node()
 }
 
 type Literal struct {
+	Type types.ValueType
 	Value any
 }
 

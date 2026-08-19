@@ -1,12 +1,15 @@
 package parser
 
 
-import "testing"
+import (
+	"j++/internal/backend/types"
+	"testing"
+)
 
 func TestBuilderLiteral(t *testing.T) {
 	b := NewBuilder()
 
-	b.Literal(42)
+	b.Literal(types.Int32, 42)
 
 	ast := b.Build()
 
@@ -21,6 +24,10 @@ func TestBuilderLiteral(t *testing.T) {
 
 	if literal.Value != 42 {
 		t.Errorf("expected value 42, got %v", literal.Value)
+	}
+
+	if literal.Type != types.Int32 {
+		t.Errorf("expected type Int32, got %v", literal.Type)
 	}
 }
 
@@ -49,7 +56,7 @@ func TestBuilderQuotation(t *testing.T) {
 	b := NewBuilder()
 
 	b.Quotation(func(q *Builder) {
-		q.Literal(1)
+		q.Literal(types.Int32, 1)
 		q.Symbol("+")
 	})
 
@@ -88,10 +95,10 @@ func TestBuilderNestedQuotation(t *testing.T) {
 	b := NewBuilder()
 
 	b.Quotation(func(q *Builder) {
-		q.Literal(10)
+		q.Literal(types.Int32, 10)
 
 		q.Quotation(func(q *Builder) {
-			q.Literal(20)
+			q.Literal(types.Int32, 20)
 			q.Symbol("+")
 		})
 
