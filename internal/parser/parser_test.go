@@ -17,15 +17,15 @@ func TestParser_ParseInteger(t *testing.T) {
 
 	p := NewParser(tokens)
 
-	ast := p.Parse()
+	nodes := p.Parse()
 
-	if len(ast.Nodes) != 1 {
-		t.Fatalf("expected 1 node, got %d", len(ast.Nodes))
+	if len(nodes) != 1 {
+		t.Fatalf("expected 1 node, got %d", len(nodes))
 	}
 
-	literal, ok := ast.Nodes[0].(Literal)
+	literal, ok := nodes[0].(Literal)
 	if !ok {
-		t.Fatalf("expected Literal, got %T", ast.Nodes[0])
+		t.Fatalf("expected Literal, got %T", nodes[0])
 	}
 
 	if literal.Type != types.Int64 {
@@ -55,15 +55,15 @@ func TestParser_ParseFloat(t *testing.T) {
 
 	p := NewParser(tokens)
 
-	ast := p.Parse()
+	nodes := p.Parse()
 
-	if len(ast.Nodes) != 1 {
-		t.Fatalf("expected 1 node, got %d", len(ast.Nodes))
+	if len(nodes) != 1 {
+		t.Fatalf("expected 1 node, got %d", len(nodes))
 	}
 
-	literal, ok := ast.Nodes[0].(Literal)
+	literal, ok := nodes[0].(Literal)
 	if !ok {
-		t.Fatalf("expected Literal, got %T", ast.Nodes[0])
+		t.Fatalf("expected Literal, got %T", nodes[0])
 	}
 
 	if literal.Type != types.Float64 {
@@ -93,15 +93,15 @@ func TestParser_ParseSymbol(t *testing.T) {
 
 	p := NewParser(tokens)
 
-	ast := p.Parse()
+	nodes := p.Parse()
 
-	if len(ast.Nodes) != 1 {
-		t.Fatalf("expected 1 node, got %d", len(ast.Nodes))
+	if len(nodes) != 1 {
+		t.Fatalf("expected 1 node, got %d", len(nodes))
 	}
 
-	symbol, ok := ast.Nodes[0].(Symbol)
+	symbol, ok := nodes[0].(Symbol)
 	if !ok {
-		t.Fatalf("expected Symbol, got %T", ast.Nodes[0])
+		t.Fatalf("expected Symbol, got %T", nodes[0])
 	}
 
 	if symbol.Value != "dup" {
@@ -122,33 +122,33 @@ func TestParser_ParseMultipleNodes(t *testing.T) {
 
 	p := NewParser(tokens)
 
-	ast := p.Parse()
+	nodes := p.Parse()
 
-	if len(ast.Nodes) != 3 {
-		t.Fatalf("expected 3 nodes, got %d", len(ast.Nodes))
+	if len(nodes) != 3 {
+		t.Fatalf("expected 3 nodes, got %d", len(nodes))
 	}
 
-	literal, ok := ast.Nodes[0].(Literal)
+	literal, ok := nodes[0].(Literal)
 	if !ok {
-		t.Fatalf("expected first node Literal, got %T", ast.Nodes[0])
+		t.Fatalf("expected first node Literal, got %T", nodes[0])
 	}
 
 	if literal.Value != int64(42) {
 		t.Errorf("expected 42, got %v", literal.Value)
 	}
 
-	symbol, ok := ast.Nodes[1].(Symbol)
+	symbol, ok := nodes[1].(Symbol)
 	if !ok {
-		t.Fatalf("expected second node Symbol, got %T", ast.Nodes[1])
+		t.Fatalf("expected second node Symbol, got %T", nodes[1])
 	}
 
 	if symbol.Value != "dup" {
 		t.Errorf("expected dup, got %q", symbol.Value)
 	}
 
-	floatLiteral, ok := ast.Nodes[2].(Literal)
+	floatLiteral, ok := nodes[2].(Literal)
 	if !ok {
-		t.Fatalf("expected third node Literal, got %T", ast.Nodes[2])
+		t.Fatalf("expected third node Literal, got %T", nodes[2])
 	}
 
 	if floatLiteral.Value != float64(3.14) {
@@ -167,16 +167,16 @@ func TestParser_Quotation(t *testing.T) {
 
 	p := NewParser(tokens)
 
-	ast := p.Parse()
+	nodes := p.Parse()
 
-	if len(ast.Nodes) != 2 {
-		t.Fatalf("expected 2 root nodes, got %d", len(ast.Nodes))
+	if len(nodes) != 2 {
+		t.Fatalf("expected 2 root nodes, got %d", len(nodes))
 	}
 
 	// 42
-	literal, ok := ast.Nodes[0].(Literal)
+	literal, ok := nodes[0].(Literal)
 	if !ok {
-		t.Fatalf("expected first node Literal, got %T", ast.Nodes[0])
+		t.Fatalf("expected first node Literal, got %T", nodes[0])
 	}
 
 	if literal.Value != int64(42) {
@@ -188,9 +188,9 @@ func TestParser_Quotation(t *testing.T) {
 	}
 
 	// [ ... ]
-	quotation, ok := ast.Nodes[1].(Quotation)
+	quotation, ok := nodes[1].(Quotation)
 	if !ok {
-		t.Fatalf("expected second node Quotation, got %T", ast.Nodes[1])
+		t.Fatalf("expected second node Quotation, got %T", nodes[1])
 	}
 
 	if len(quotation.Nodes) != 2 {

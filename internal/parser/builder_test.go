@@ -11,15 +11,15 @@ func TestBuilderLiteral(t *testing.T) {
 
 	b.Literal(types.Int32, 42)
 
-	ast := b.Build()
+	nodes := b.Build()
 
-	if len(ast.Nodes) != 1 {
-		t.Fatalf("expected 1 node, got %d", len(ast.Nodes))
+	if len(nodes) != 1 {
+		t.Fatalf("expected 1 node, got %d", len(nodes))
 	}
 
-	literal, ok := ast.Nodes[0].(Literal)
+	literal, ok := nodes[0].(Literal)
 	if !ok {
-		t.Fatalf("expected Literal, got %T", ast.Nodes[0])
+		t.Fatalf("expected Literal, got %T", nodes[0])
 	}
 
 	if literal.Value != 42 {
@@ -36,15 +36,15 @@ func TestBuilderSymbol(t *testing.T) {
 
 	b.Symbol("dup")
 
-	ast := b.Build()
+	nodes := b.Build()
 
-	if len(ast.Nodes) != 1 {
-		t.Fatalf("expected 1 node, got %d", len(ast.Nodes))
+	if len(nodes) != 1 {
+		t.Fatalf("expected 1 node, got %d", len(nodes))
 	}
 
-	symbol, ok := ast.Nodes[0].(Symbol)
+	symbol, ok := nodes[0].(Symbol)
 	if !ok {
-		t.Fatalf("expected Symbol, got %T", ast.Nodes[0])
+		t.Fatalf("expected Symbol, got %T", nodes[0])
 	}
 
 	if symbol.Value != "dup" {
@@ -60,15 +60,15 @@ func TestBuilderQuotation(t *testing.T) {
 		q.Symbol("+")
 	})
 
-	ast := b.Build()
+	nodes := b.Build()
 
-	if len(ast.Nodes) != 1 {
-		t.Fatalf("expected 1 node, got %d", len(ast.Nodes))
+	if len(nodes) != 1 {
+		t.Fatalf("expected 1 node, got %d", len(nodes))
 	}
 
-	quotation, ok := ast.Nodes[0].(Quotation)
+	quotation, ok := nodes[0].(Quotation)
 	if !ok {
-		t.Fatalf("expected Quotation, got %T", ast.Nodes[0])
+		t.Fatalf("expected Quotation, got %T", nodes[0])
 	}
 
 	if len(quotation.Nodes) != 2 {
@@ -105,15 +105,15 @@ func TestBuilderNestedQuotation(t *testing.T) {
 		q.Symbol("call")
 	})
 
-	ast := b.Build()
+	nodes := b.Build()
 
-	if len(ast.Nodes) != 1 {
-		t.Fatalf("expected 1 root node, got %d", len(ast.Nodes))
+	if len(nodes) != 1 {
+		t.Fatalf("expected 1 root node, got %d", len(nodes))
 	}
 
-	outer, ok := ast.Nodes[0].(Quotation)
+	outer, ok := nodes[0].(Quotation)
 	if !ok {
-		t.Fatalf("expected outer Quotation, got %T", ast.Nodes[0])
+		t.Fatalf("expected outer Quotation, got %T", nodes[0])
 	}
 
 	if len(outer.Nodes) != 3 {

@@ -35,9 +35,7 @@ var builtins = map[string]Builtin{
 		if !ok {
 			panic("i: expected quotation")
 		}
-		i.Eval(parser.AST{
-			Nodes: quotation.Nodes,
-		})
+		i.Eval(quotation.Nodes,)
 	},
 
 	"dip": func(i *Interpreter) {
@@ -48,9 +46,7 @@ var builtins = map[string]Builtin{
 
 		value := i.stack.Pop()
 
-		i.Eval(parser.AST{
-			Nodes: quotation.Nodes,
-		})
+		i.Eval(quotation.Nodes)
 
 		i.stack.Push(value)
 	},

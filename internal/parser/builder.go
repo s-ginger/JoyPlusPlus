@@ -12,7 +12,7 @@ func NewBuilder() *Builder {
 
 func (b *Builder) Literal(value_type types.ValueType, value any) {
 	b.nodes = append(b.nodes, Literal{
-		Type: value_type,
+		Type:  value_type,
 		Value: value,
 	})
 }
@@ -33,8 +33,6 @@ func (b *Builder) Quotation(fn func(*Builder)) {
 	})
 }
 
-func (b *Builder) Build() AST {
-	return AST{
-		Nodes: b.nodes,
-	}
+func (b *Builder) Build() Nodes {
+	return b.nodes
 }

@@ -9,9 +9,11 @@ const (
 	Float64
 
 	UintPtr
-	List
 )
 
+type Symbol string
+
+type List []any
 
 
 

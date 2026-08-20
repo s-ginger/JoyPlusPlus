@@ -17,8 +17,8 @@ func NewInterpreter(stack Stack) *Interpreter {
 	}
 }
 
-func (i *Interpreter) Eval(ast parser.AST) {
-	for _, el := range ast.Nodes {
+func (i *Interpreter) Eval(nodes parser.Nodes) {
+	for _, el := range nodes {
 		switch node := el.(type) {
 		case parser.Symbol:
 			builtin, ok := i.builtins[node.Value]

@@ -207,5 +207,6 @@ func isSymbolRune(r rune) bool {
 		r == '<' ||
 		r == '=' ||
 		r == '!' ||
-		r == '~' 
+		r == '~' ||
+		r == '\'' 
 }
