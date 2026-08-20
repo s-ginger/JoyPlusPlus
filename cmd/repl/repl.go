@@ -10,6 +10,8 @@ import (
 )
 
 func StartRepl() {
+	fmt.Print("Welcome to Joy++ repl v0.2\n")
+	fmt.Print("Type help for more information")
 	reader := bufio.NewReader(os.Stdin)
 
 	i := interpreter.NewInterpreter(interpreter.Stack{})
@@ -17,7 +19,7 @@ func StartRepl() {
 	p := parser.NewZeroParser()
 
 	for {
-		fmt.Print("> ")
+		fmt.Print("\n> ")
 
 		input, err := reader.ReadString('\n')
 		if err != nil {
@@ -30,7 +32,6 @@ func StartRepl() {
 		ast := p.Parse()
 
 		i.Eval(ast)
-		i.Print()
 
 		l.Flush()
 		p.Flush()

@@ -54,4 +54,8 @@ var builtins = map[string]Builtin{
 
 		i.stack.Push(value)
 	},
+
+	"free!" : func(i *Interpreter) {
+		i.stack.values = []any{}
+	},
 }

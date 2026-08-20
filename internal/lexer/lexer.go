@@ -184,7 +184,7 @@ func (l *Lexer) readSymbol() string {
 	for l.pos < len(l.src) {
 		r, _ := l.readRune()
 
-		if !unicode.IsLetter(r) && !unicode.IsDigit(r) {
+		if !isSymbolRune(r) {
 			break
 		}
 
@@ -192,4 +192,20 @@ func (l *Lexer) readSymbol() string {
 	}
 
 	return l.src[start:l.pos]
+}
+
+func isSymbolRune(r rune) bool {
+	return unicode.IsLetter(r) ||
+		unicode.IsDigit(r) ||
+		r == '_' ||
+		r == '-' ||
+		r == '?' ||
+		r == '*' ||
+		r == '+' || 
+		r == '&' || 
+		r == '>' ||
+		r == '<' ||
+		r == '=' ||
+		r == '!' ||
+		r == '~' 
 }

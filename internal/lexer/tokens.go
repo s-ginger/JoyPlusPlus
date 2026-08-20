@@ -9,6 +9,12 @@ const (
 
 	LBRACKET 
 	RBRACKET
+
+	MOD
+	DEFINE
+	EQEQ 
+	DOT
+	IMPORT
 )
 
 

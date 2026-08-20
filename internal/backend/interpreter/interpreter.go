@@ -1,7 +1,6 @@
 package interpreter
 
 import (
-	"fmt"
 	"j++/internal/backend/types"
 	"j++/internal/parser"
 )
@@ -64,9 +63,5 @@ func (i *Interpreter) evalLiteral(literal parser.Literal) {
 	default:
 		panic("A unknown or nil type")
 	}
-}
-
-func (i *Interpreter) Print() {
-	fmt.Printf("\n%#v\n", i.stack.values)
 }
 
