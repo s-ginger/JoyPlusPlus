@@ -26,10 +26,6 @@ type Quotation struct {
 
 func (Quotation) node() {}
 
-// type AST struct {
-// 	Nodes []Node
-// }
-
 type Nodes []Node
 
 // Stmt 
@@ -54,5 +50,7 @@ func (Define) stmt() {}
 type Import struct {
 	ImportStr string
 }
+
+func (Import) stmt() {}
 
 type Stmts []Stmt
