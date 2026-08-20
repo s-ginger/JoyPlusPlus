@@ -1,9 +1,107 @@
-name: Release
+name: Release Build
 
 on:
   push:
     tags:
-      - "v*"
+      - 'v*'
 
-# permissions:
-#   contents: write
+permissions:
+  contents: write
+
+jobs:
+  build:
+    name: Build ${{ matrix.os }}-${{ matrix.arch }}
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        include:
+          # Windows
+          - os: windows-latest
+            goos: windows
+            goarch: amd64
+            name: j++-win64
+            ext: .exe
+
+          # Linux
+          - os: ubuntu-latest
+            goos: linux
+            goarch: amd64
+            name: j++-linux64
+            ext: ""
+
+          # macOS Intel
+          - os: macos-13
+            goos: darwin
+            goarch: amd64
+            name: j++-macos-intel
+            ext: ""
+
+          # macOS Apple Silicon
+          - os: macos-latest
+            goos: darwin
+            goarch: arm64
+            name: j++-macos-arm64
+            ext: ""
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.26'
+
+      - name: Build
+        shell: bash
+        run: |
+          mkdir -p dist
+
+          GOOS=${{ matrix.goos }} \
+          GOARCH=${{ matrix.goarch }} \
+          CGO_ENABLED=0 \
+          go build \
+            -o "dist/${{ matrix.name }}${{ matrix.ext }}" \
+            ./cmd/j++/main.go
+
+      - name: Create archive
+        shell: bash
+        run: |
+          cd dist
+
+          tar -czf "../${{ matrix.name }}.tar.gz" \
+            "${{ matrix.name }}${{ matrix.ext }}"
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.name }}
+          path: ${{ matrix.name }}.tar.gz
+
+  release:
+    name: Create GitHub Release
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: release
+
+      - name: Prepare release files
+        shell: bash
+        run: |
+          mkdir -p dist
+
+          find release -name '*.tar.gz' -exec cp {} dist/ \;
+
+          ls -lh dist
+
+      - name: Upload to GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/*.tar.gz
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
