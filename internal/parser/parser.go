@@ -122,6 +122,7 @@ func (p *Parser) parseQuotation() {
 	})
 }
 
+
 func (p *Parser) Parse() Nodes {
 	for p.pos < len(p.tokens) {
 		tok := p.current()
