@@ -31,11 +31,11 @@ jobs:
             ext: ""
 
           # macOS Intel
-          - os: macos-13
-            goos: darwin
-            goarch: amd64
-            name: j++-macos-intel
-            ext: ""
+          # - os: macos-13
+          #   goos: darwin
+          #   goarch: amd64
+          #   name: j++-macos-intel
+          #   ext: ""
 
           # macOS Apple Silicon
           - os: macos-latest
