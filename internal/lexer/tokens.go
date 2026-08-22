@@ -4,25 +4,27 @@ type TokenType int
 
 const (
 	SYMBOL TokenType = iota
+
+	STRING
+	CHAR
+
 	INT
 	FLOAT
 
-	LBRACKET 
-	RBRACKET
+	LBRACKET // [
+	RBRACKET // ]
 
-	MOD
-	DEFINE
-	EQEQ 
-	DOT
-	IMPORT
+	MOD       // mod
+	DEFINE    // define
+	EQEQ      // ==
+	SEMICOLON // ;
+	IMPORT    // import
+	SEPARATOR // /
 )
 
-
 type Token struct {
-	Type TokenType
-	Value string
-	Line int
+	Type   TokenType
+	Value  string
+	Line   int
 	Column int
 }
-
-

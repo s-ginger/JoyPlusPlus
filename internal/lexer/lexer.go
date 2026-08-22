@@ -16,7 +16,7 @@ type Lexer struct {
 
 func NewZeroLexer() *Lexer {
 	return &Lexer{
-		src: "",
+		src:    "",
 		line:   1,
 		column: 1,
 	}
@@ -106,6 +106,29 @@ func (l *Lexer) Tokenize() []Token {
 			continue
 		}
 
+		if r == '/' {
+			tokens = append(tokens, Token{
+				Type:   SEPARATOR,
+				Value:  string(r),
+				Line:   l.line,
+				Column: l.column,
+			})
+			l.advance()
+			continue
+		}
+		
+		if r == ';' {
+			tokens = append(tokens, Token{
+				Type:   SEMICOLON,
+				Value:  string(r),
+				Line:   l.line,
+				Column: l.column,
+			})
+			l.advance()
+			continue
+		}
+
+
 		if unicode.IsDigit(r) {
 			line := l.line
 			column := l.column
@@ -137,6 +160,35 @@ func (l *Lexer) Tokenize() []Token {
 
 			value := l.readSymbol()
 
+			if value == "mod" {
+				tokens = append(tokens, Token{
+					Type:   MOD,
+					Value:  value,
+					Line:   line,
+					Column: column,
+				})
+			}
+
+			if value == "define" {
+				tokens = append(tokens, Token{
+					Type:   DEFINE,
+					Value:  value,
+					Line:   line,
+					Column: column,
+				})
+			}
+
+			if value == "import" {
+				tokens = append(tokens, Token{
+					Type:   IMPORT,
+					Value:  value,
+					Line:   line,
+					Column: column,
+				})
+			}
+
+
+
 			tokens = append(tokens, Token{
 				Type:   SYMBOL,
 				Value:  value,
@@ -148,7 +200,7 @@ func (l *Lexer) Tokenize() []Token {
 		}
 
 		// unknown character
-		panic(fmt.Sprintf("\nunexpected token in (line:colum)(%v:%v):\n%v\n", l.line, l.pos, l.src,))
+		panic(fmt.Sprintf("\nunexpected token in (line:colum)(%v:%v):\n%v\n", l.line, l.pos, l.src))
 	}
 
 	return tokens
@@ -201,12 +253,12 @@ func isSymbolRune(r rune) bool {
 		r == '-' ||
 		r == '?' ||
 		r == '*' ||
-		r == '+' || 
-		r == '&' || 
+		r == '+' ||
+		r == '&' ||
 		r == '>' ||
 		r == '<' ||
 		r == '=' ||
 		r == '!' ||
 		r == '~' ||
-		r == '\'' 
+		r == '\''
 }

@@ -33,8 +33,11 @@ type Stmt interface {
 	stmt()
 }
 
+type Stmts []Stmt
+
 type Mod struct {
 	ModName string
+	Stmts Stmts
 }
 
 func (Mod) stmt() {}
@@ -53,4 +56,3 @@ type Import struct {
 
 func (Import) stmt() {}
 
-type Stmts []Stmt
