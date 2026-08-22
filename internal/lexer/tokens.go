@@ -3,13 +3,13 @@ package lexer
 type TokenType int
 
 const (
-	SYMBOL TokenType = iota
+	SYMBOL TokenType = iota // 'anything!-><?+~
 
-	STRING
-	CHAR
+	STRING // "character"
+	RUNE   // "c
 
-	INT
-	FLOAT
+	INT   //2
+	FLOAT //2.5
 
 	LBRACKET // [
 	RBRACKET // ]
